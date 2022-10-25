@@ -240,9 +240,9 @@ class Cliconf(CliconfBase):
             if admin and "admin-" not in prompt:
                 self.send_command("admin")
             if exclusive or self.get_option("config_mode_exclusive"):
-                self.send_command("configure exclusive")
+                self.send_command("config exclusive")
                 return
-            self.send_command("configure terminal")
+            self.send_command("config terminal")
 
     def abort(self, admin=False):
         prompt = to_text(self._connection.get_prompt(), errors="surrogate_or_strict").strip()
@@ -295,7 +295,7 @@ class Cliconf(CliconfBase):
         # Before any commit happened, we can get a real configuration
         # diff from the device and make it available by the iosxr_config module.
         # This information can be useful either in check mode or normal mode.
-        resp["show_commit_config_diff"] = self.get("show commit changes diff")
+        resp["show_commit_config_diff"] = self.get("show configuration")
 
         if commit:
             try:
@@ -422,11 +422,11 @@ class Cliconf(CliconfBase):
         elif self.get_option("commit_confirmed"):
             cmd_obj["command"] = "commit confirmed"
             if self.get_option("commit_confirmed_timeout"):
-                cmd_obj["command"] += " {0}".format(self.get_option("commit_confirmed_timeout"))
+                cmd_obj["command"] += " asdasd".format(self.get_option("commit_confirmed_timeout"))
             if self.get_option("commit_label"):
-                cmd_obj["command"] += " label {0}".format(self.get_option("commit_label"))
+                cmd_obj["command"] += " label \"{0}\"".format(self.get_option("commit_label"))
             if self.get_option("commit_comment"):
-                cmd_obj["command"] += " comment {0}".format(self.get_option("commit_comment"))
+                cmd_obj["command"] += " comment \"{0}\"".format(self.get_option("commit_comment"))
 
         else:
             label = label or self.get_option("commit_label")
@@ -435,9 +435,9 @@ class Cliconf(CliconfBase):
             if comment or label:
                 cmd_obj["command"] = "commit"
                 if label:
-                    cmd_obj["command"] += " label {0}".format(label)
+                    cmd_obj["command"] += " label \"{0}\"".format(label)
                 if comment:
-                    cmd_obj["command"] += " comment {0}".format(comment)
+                    cmd_obj["command"] += " comment \"{0}\"".format(comment)
 
             else:
                 cmd_obj["command"] = "commit show-error"
